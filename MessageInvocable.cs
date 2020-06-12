@@ -22,15 +22,10 @@ namespace AWS.MessageService.KINESIS
 {
     public class MessageInvocable : IInvocable
     {
-        // ***** GERDAU ***********************
+        // *****  ***********************
 
         /*
-        private static string urlAWS = "https://sqs.us-east-1.amazonaws.com/";  //066105611759/ows_lam3";
-        private static string userIdAWS = "066105611759";
-        private static string queueNamedAWS = "ows_lam3";
-        //private static string queueNamedAWS = "ows_lam3_robo";
-        private static string accessKeyAWS = "AKIAQ6ZBTSXXZ7GPNBON";
-        private static string secretKeyAWS = "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";
+        
         */
         private static string urlAWS;
         private static string userIdAWS;
@@ -92,8 +87,8 @@ namespace AWS.MessageService.KINESIS
             //_client = new AmazonKinesisClient(accessKeyAWS, secretKeyAWS, RegionEndpoint.USEast1);
             //_streamName = queueNamedAWS;
 
-            _client = new AmazonKinesisClient("AKIA445VGZTO7BIS2LRJ", "0m+DlUtuRF0xe1pyRTS7WCmqNVlhCoJ/kHpbzKsR", RegionEndpoint.USEast1);
-            _streamName = "UOB_LPE";
+            _client = new AmazonKinesisClient("", "", RegionEndpoint.USEast1);
+            _streamName = "";
 
 
             //ReadQueueAWS();
