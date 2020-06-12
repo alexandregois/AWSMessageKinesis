@@ -1,0 +1,22 @@
+{
+  "profiles": {
+
+    /*
+    "AWS.MessageService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },
+
+  */
+
+    "AWS.MessageService.KINESIS": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
