@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>dotnet-OFD_MessageService-2DE0D3B5-F9D5-438A-9F3A-8D3A83EA399E</UserSecretsId>
+    <VersionSuffix>1.0.0.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
+    <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
+    <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
+    <FileVersion Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</FileVersion>
+    <FileVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</FileVersion>    
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(Configuration.ToLower().StartsWith('debug'))"><DebugType>Full</DebugType></PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.ToLower().StartsWith('release'))"><DebugType>None</DebugType></PropertyGroup>
+
+  <PropertyGroup>
+    <OnWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</OnWindows>
+    <OnMacOS Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</OnMacOS>
+    <OnLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</OnLinux>
+  </PropertyGroup>  
+
+  <PropertyGroup Condition="'$(OnWindows)'=='true'"><DefineConstants>BuiltOnWindows</DefineConstants></PropertyGroup>
+  <PropertyGroup Condition="'$(OnMacOS)'=='true'"><DefineConstants>BuiltOnMacOS</DefineConstants></PropertyGroup>
+  <PropertyGroup Condition="'$(OnLinux)'=='true'"><DefineConstants>BuiltOnLinux</DefineConstants></PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants Condition="$(RuntimeIdentifier.ToLower().StartsWith('win'))">$(DefineConstants);BuiltForWindows</DefineConstants>
+    <DefineConstants Condition="$(RuntimeIdentifier.ToLower().StartsWith('osx'))">$(DefineConstants);BuiltForMacOS</DefineConstants>
+    <DefineConstants Condition="$(RuntimeIdentifier.ToLower().StartsWith('linux'))">$(DefineConstants);BuiltForLinux</DefineConstants>
+  </PropertyGroup>   
+
+  <ItemGroup>
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
+    <None Include="appsettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Kinesis" Version="3.3.100.221" />
+    <PackageReference Include="Kinesis.ClientLibrary.Net" Version="0.0.10" />
+    <PackageReference Include="AWSSDK.Core" Version="3.3.107.39" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />    
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="3.1.7" />
+
+    <PackageReference Include="RepoDb" Version="1.11.6" />
+    <PackageReference Include="RepoDb.SqlServer" Version="1.0.13" />
+    <PackageReference Include="RepoDb.SqlServer.BulkOperations" Version="1.0.14" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+  </ItemGroup> 
+</Project>

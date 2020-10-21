@@ -1,41 +1,32 @@
-using System;
-using Coravel;
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
-using System.IO;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
-namespace AWS.MessageService.KINESIS
+namespace OFD_MessageService
 {
     public class Program
     {
-        private static IConfiguration configuration { get; }
-        public static int tempoExec { get; set; }
-
         public static void Main(string[] args)
         {
-            IHost host = CreateHostBuilder(args).Build();
-            host.Services.UseScheduler(scheduler =>
-            {
-                //scheduler.Schedule<MessageInvocable>().EveryFiveMinutes();//.EveryFiveMinutes();
-                scheduler.Schedule<MessageInvocable>().EveryFifteenSeconds();
 
-            });
-            host.Run();
+            var builder = CreateHostBuilder(args);
+
+            // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+            //     builder.UseWindowsService();
+            //     builder.ConfigureLogging((_, logging) => logging.AddEventLog());
+            // }
+
+            builder.Build().Run();
+            //var host = builder.Build();
+            //host.Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args).ConfigureServices(services =>
-        {
-            var builder = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())  //location of the exe file
-                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-            IConfigurationRoot configuration = builder.Build();
-
-            tempoExec = Convert.ToInt32(configuration.GetSection("MySettings").GetSection("TempoExec").Value);
-
-            services.AddScheduler();
-            services.AddTransient<MessageInvocable>();
-        });
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureServices((hostContext, services) => 
+                services.AddHostedService<KinesisWorker>()
+            );
     }
 }

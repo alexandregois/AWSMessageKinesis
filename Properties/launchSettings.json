@@ -1,17 +1,10 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true
+  },
   "profiles": {
-
-    /*
-    "AWS.MessageService": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
-      }
-    },
-
-  */
-
-    "AWS.MessageService.KINESIS": {
+    "OFD_MessageService": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
